@@ -1,0 +1,19 @@
+version: '2.0'
+services:
+  radvd:
+    build:
+      context: ./radvd
+    volumes:
+    - ./config/radvd.conf:/etc/radvd.conf:ro
+    network_mode: host
+    cap_add:
+    - NET_RAW
+    command: -d 2 -m stderr
+
+  dibbler-server:
+    build:
+      context: ./dibbler-server
+    volumes:
+    - ./config/dibbler.conf:/etc/dibbler/server.conf:ro
+    network_mode: host
+    command: run
