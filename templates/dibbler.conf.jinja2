@@ -1,0 +1,15 @@
+# https://klub.com.pl/dhcpv6/doc/dibbler-user.pdf
+log-level 7
+
+{% for ifname, ifconfig in config.ifaces.items() %}
+iface {{ ifname }} {
+    class {
+        pool {{ ifconfig.with_prefix }}
+    }
+    {% for link_local, addr in ifconfig.statics %}
+    client link-local {{ link_local }} {
+        address {{ addr }}
+    }
+    {% endfor %}
+}
+{% endfor %}

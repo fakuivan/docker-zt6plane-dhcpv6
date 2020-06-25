@@ -1,0 +1,13 @@
+interface {{ config.zt_iface }} {
+    AdvSendAdvert on;
+    prefix {{ config.zt_6plane_nets[0] }} { };
+    route {{ config.with_prefix }} { };
+};
+
+{% for ifname, ifconfig in config.ifaces.items() %}
+interface {{ ifname }} {
+    AdvSendAdvert on;
+    AdvManagedFlag on;
+    prefix {{ ifconfig.with_prefix }} { AdvAutonomous off; };
+};
+{% endfor %}

@@ -1,0 +1,43 @@
+# always 1 for now
+version: 1
+# These values are hexadecimal, so 
+# they need to be wrapped in quotes,
+# if they don't contain letters
+# otherwise the parser takes them as
+# decimal integers
+node_id: '0123456789'
+network_id: '0123456789abcdef'
+# All suffixes are appended to the ip
+# address, as in:
+#  abcd::/20 -> abcd:0010::/28
+# (for suffix '01')
+# starting by the leftmost available
+# place 
+suffix: 00de
+ifaces:
+  # interface names are not sanitized
+  # don't put dumb values here
+  enp2s0.5:
+    # Example: 
+    # infrastructure subnet with
+    # routers, switches and appliances
+    # that don't support zerotier
+    suffix: 001f
+    static_clients:
+      # static clients are identified
+      # by their link-local addresses
+      # the right values are appended
+      # to the subnet for this device
+      # starting from the right
+      fe80::76da:88ff:fe75:6dbd: '3'
+      fe80::9ada:c4ff:fe0d:d17: '4'
+      fe80::16cc:20ff:fe0e:9456: '2'
+  enp2s0.6:
+    # Example:
+    # Network cameras with IPv6 support
+    suffix: 00ca
+    static_clients:
+      fe80::b6a3:82ff:fe61:b638: '1'
+      fe80::b6a3:82ff:fe61:b635: '2'
+      fe80::b6a3:82ff:fe61:b569: '3'
+      fe80::b6a3:82ff:fe61:b58f: '4'
