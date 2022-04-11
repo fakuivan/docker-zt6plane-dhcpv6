@@ -13,7 +13,7 @@ network_id: '0123456789abcdef'
 # (for suffix '10')
 # starting by the leftmost available
 # place 
-prefix: [1, str]
+prefix: 00de
 ifaces:
   # interface names are not sanitized
   # don't put dumb values here

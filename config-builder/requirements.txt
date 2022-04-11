@@ -2,3 +2,4 @@ dacite==1.6.0
 Jinja2==3.1.1
 PyYAML==6.0
 types-PyYAML==6.0.5
+argh==0.26.2

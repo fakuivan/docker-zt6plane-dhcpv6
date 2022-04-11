@@ -1,5 +1,6 @@
 #!/usr/bin/env python3.9
 import argparse
+import argh
 from dataclasses import dataclass, field
 from ipaddress import IPv6Address, IPv6Network
 from typing import (
@@ -112,55 +113,37 @@ class Config:
         return self
 
 
-def main() -> None:
-    parser = argparse.ArgumentParser(
-        description="Configures dibbler and radvd to relay "
-        + "ZeroTier 6plane addresses and traffic "
-        + "to devices on different networks"
-    )
-    parser.add_argument(
-        "config",
-        type=argparse.FileType("r"),
-        help="Configuration file in YAML format",
-    )
-    parser.add_argument(
-        "radvd_tmpl",
-        type=argparse.FileType("r"),
-        help="Template file for radvd",
-        metavar="radvd-tmpl",
-    )
-    parser.add_argument(
-        "dibbler_tmpl",
-        type=argparse.FileType("r"),
-        help="Template file for dibbler",
-        metavar="dibbler-tmpl",
-    )
-    parser.add_argument(
-        "radvd_out",
-        type=argparse.FileType("w"),
-        help="Output config file for radvd",
-        metavar="radvd-out",
-    )
-    parser.add_argument(
-        "dibbler_out",
-        type=argparse.FileType("w"),
-        help="Output config file for dibbler",
-        metavar="dibbler-out",
-    )
+def file_arg(*args: Any, mode="r", **kwargs: Any) -> Any:
+    return argh.arg(*args, **kwargs, type=argparse.FileType(mode))
 
-    args = parser.parse_args()
-    config_file: TextIO = args.config
-    radvd_tmpl: TextIO = args.radvd_tmpl
-    dibbler_tmpl: TextIO = args.dibbler_tmpl
-    radvd_out: TextIO = args.radvd_out
-    dibbler_out: TextIO = args.dibbler_out
 
-    config = Config.from_dict(yaml.safe_load(config_file))
-    radvd_out.write(Template(radvd_tmpl.read()).render(config=config))
+@file_arg("config", help="Configuration file in YAML format")
+@file_arg("radvd_tmpl", help="Template file for radvd")
+@file_arg("dibbler_tmpl", help="Template file for dibbler")
+@file_arg("radvd_out", help="Output config file for radvd", mode="w+")
+@file_arg(
+    "dibbler_out", help="Output config file for dibbler", mode="w+"
+)
+def main(
+    config: TextIO,
+    radvd_tmpl: TextIO,
+    dibbler_tmpl: TextIO,
+    radvd_out: TextIO,
+    dibbler_out: TextIO,
+) -> None:
+    """
+    Configures dibbler and radvd to relay ZeroTier 6plane
+    addresses and traffic to devices on different networks
+    """
+
+    config_ = Config.from_dict(yaml.safe_load(config))
+    radvd_out.write(
+        Template(radvd_tmpl.read()).render(config=config_)
+    )
     dibbler_out.write(
-        Template(dibbler_tmpl.read()).render(config=config)
+        Template(dibbler_tmpl.read()).render(config=config_)
     )
 
 
 if __name__ == "__main__":
-    main()
+    argh.dispatch_command(main)
