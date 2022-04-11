@@ -1,0 +1,3 @@
+[submodule "config-builder/pyzt"]
+	path = config-builder/pyzt
+	url = https://github.com/fakuivan/pyzt.git

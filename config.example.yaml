@@ -7,13 +7,13 @@ version: 1
 # decimal integers
 node_id: '0123456789'
 network_id: '0123456789abcdef'
-# All suffixes are appended to the ip
+# All prefixes are appended to the ip
 # address, as in:
-#  abcd::/20 -> abcd:0010::/28
-# (for suffix '01')
+#  abcd::/20 -> abcd:10::/28
+# (for suffix '10')
 # starting by the leftmost available
 # place 
-suffix: 00de
+prefix: [1, str]
 ifaces:
   # interface names are not sanitized
   # don't put dumb values here
@@ -22,7 +22,7 @@ ifaces:
     # infrastructure subnet with
     # routers, switches and appliances
     # that don't support zerotier
-    suffix: 001f
+    prefix: 001f
     static_clients:
       # static clients are identified
       # by their link-local addresses
@@ -35,7 +35,7 @@ ifaces:
   enp2s0.6:
     # Example:
     # Network cameras with IPv6 support
-    suffix: 00ca
+    prefix: 00ca
     static_clients:
       fe80::b6a3:82ff:fe61:b638: '1'
       fe80::b6a3:82ff:fe61:b635: '2'
