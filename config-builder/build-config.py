@@ -100,12 +100,8 @@ class Config:
             cls,
             dict_,
             config=DaciteConfig(
-                type_hooks={
-                    NodeID: NodeID,
-                    NetworkID: NetworkID,
-                    IPv6Address: IPv6Address,
-                    Prefix: Prefix.from_config,
-                }
+                type_hooks={Prefix: Prefix.from_config},
+                cast=[NodeID, NetworkID, IPv6Address],
             ),
         )
         for _, config in self.ifaces.items():
