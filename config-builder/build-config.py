@@ -109,7 +109,7 @@ class Config:
         return self
 
 
-def file_arg(*args: Any, mode: str="r", **kwargs: Any) -> Any:
+def file_arg(*args: Any, mode: str = "r", **kwargs: Any) -> Any:
     return argh.arg(*args, **kwargs, type=argparse.FileType(mode))
 
 
