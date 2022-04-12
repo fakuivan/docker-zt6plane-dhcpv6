@@ -1,6 +1,6 @@
 #!/usr/bin/env python3.9
 import argparse
-import argh
+import argh  # type: ignore[import]
 from dataclasses import dataclass, field
 from ipaddress import IPv6Address, IPv6Network
 from typing import (
@@ -113,17 +113,17 @@ class Config:
         return self
 
 
-def file_arg(*args: Any, mode="r", **kwargs: Any) -> Any:
+def file_arg(*args: Any, mode: str="r", **kwargs: Any) -> Any:
     return argh.arg(*args, **kwargs, type=argparse.FileType(mode))
 
 
-@file_arg("config", help="Configuration file in YAML format")
-@file_arg("radvd_tmpl", help="Template file for radvd")
-@file_arg("dibbler_tmpl", help="Template file for dibbler")
-@file_arg("radvd_out", help="Output config file for radvd", mode="w+")
+@file_arg("config", help="Configuration file in YAML format")  # type: ignore[misc]
+@file_arg("radvd_tmpl", help="Template file for radvd")  # type: ignore[misc]
+@file_arg("dibbler_tmpl", help="Template file for dibbler")  # type: ignore[misc]
+@file_arg("radvd_out", help="Output config file for radvd", mode="w+")  # type: ignore[misc]
 @file_arg(
     "dibbler_out", help="Output config file for dibbler", mode="w+"
-)
+)  # type: ignore[misc]
 def main(
     config: TextIO,
     radvd_tmpl: TextIO,
